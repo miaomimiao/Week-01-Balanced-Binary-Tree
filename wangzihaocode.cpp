@@ -21,9 +21,7 @@ cout<<endl;
 void main()
 {
 set<int> s1; 
-pair<iterator, bool> insert(value)  //元素插入：
-                                    //1,插入value，返回pair配对对象，可以根据.second判断是否插入成功。(提示:value不能与set容器内元素重复)
-
+pair<iterator, bool> insert(value)  //元素插入 1,插入value，返回pair配对对象，可以根据.second判断是否插入成功。(提示:value不能与set容器内元素重复)
 iterator insert(&pos, value)        //2,在pos位置之前插入value，返回新元素位置，但不一定能插入成功
 cout<<"\ns1.erase(70) = "<<endl;    //元素删除
 s1.erase(70);
