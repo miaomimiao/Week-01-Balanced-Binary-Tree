@@ -12,12 +12,12 @@ int main()
        map<int, string>::iterator  iter;
        for(iter = mapStudent.begin(); iter != mapStudent.end(); iter++)
   {
-         Cout<<iter->first<<”   ”<<iter->second<<end;
+       cout<<iter->first<<”   ”<<iter->second<<end;
   }
-  //删除
-   map<int, string>::iterator iter;
-   iter = mapStudent.find(1);
-   mapStudent.erase(iter);
-  return 0;
+       //删除
+       map<int, string>::iterator iter;
+       iter = mapStudent.find(1);
+       mapStudent.erase(iter);
+       return 0;
 }
 
