@@ -102,7 +102,7 @@ map底层采用的是树型结构,多数使用平衡二叉树实现,查找某一
 		第一种：用insert函数插入pair数据
 			map<int, string> mapStudent;
 			mapStudent.insert(pair<int, string>(1, "student_one"));
-		第二种：用insert函数插入value_type数据
+		第二种：用insert函数插入 value_type数据
 			map<int, string> mapStudent;
 			mapStudent.insert(map<int, string>::value_type (1, "student_one"));
 		第三种：用数组方式插入数据
