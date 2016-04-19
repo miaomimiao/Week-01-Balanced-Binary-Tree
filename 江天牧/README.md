@@ -31,22 +31,22 @@ set中使用红黑树完成。
 如：我们不能通过迭代器改变set的值，因为红黑树的结构和值的大小有关系，删改元素后原有的指针依然能用。
 	
 ## set的使用方法：
-1. 元素插入：`insert()`
-2. 中序遍历：类似`vector`遍历（用迭代器）
-3. 反向遍历：利用反向迭代器`reverse_iterator`。
+* 元素插入：`insert()`
+* 中序遍历：类似`vector`遍历（用迭代器）
+* 反向遍历：利用反向迭代器`reverse_iterator`。
 ```cpp
 set<int> s;
 ...
 set<int>::reverse_iterator rit;
 for(rit=s.rbegin();rit!=s.rend();rit++)
 ```
-4. 元素删除：与插入一样，可以高效的删除，并自动调整使红黑树平衡。
+* 元素删除：与插入一样，可以高效的删除，并自动调整使红黑树平衡。
 ```cpp		
 set<int> s;
 s.erase(2);        //删除键值为2的元素
 s.clear();
 ```
-5. 元素检索：`find()`，若找到，返回该键值迭代器的位置，否则，返回最后一个元素后面一个位置。
+* 元素检索：`find()`，若找到，返回该键值迭代器的位置，否则，返回最后一个元素后面一个位置。
 ```cpp
 set<int> s;
 set<int>::iterator it;
@@ -56,38 +56,30 @@ if(it!=s.end())    //找到
 else            //未找到
 	cout<<"未找到";
 ```
-6. 自定义比较函数
-	1. 元素不是结构体：
+* 自定义比较函数
+	* 元素不是结构体：
+	
 	```cpp
-	//自定义比较函数myComp,重载“（）”操作符
-	struct myComp
-	{
-		bool operator()(const your_type &a,const your_type &b)
-		{
-			return a.data-b.data>0;
-		}
-	}
-	set<int,myComp>s;
-	...
-	set<int,myComp>::iterator it;
-	```
-	2. 如果元素是结构体，可以直接将比较函数写在结构体内。
-	```cpp
-	struct Info
-	{
-		string name;
-		float score;
-		//重载“<”操作符，自定义排序规则
-		bool operator < (const Info &a) const
-		{
-			//按score从大到小排列
-			return a.score<score;
-		}
-	}
-	set<Info> s;
-	...
-	set<Info>::iterator it;
-	```
+    struct Info
+    ```
+    * 如果元素是结构体，可以直接将比较函数写在结构体内。
+    
+    ```cpp
+    struct Info
+    {
+    	string name;
+    	float score;
+    	//重载“<”操作符，自定义排序规则
+    	bool operator < (const Info &a) const
+    	{
+        	//按score从大到小排列
+    		return a.score<score;
+    	}
+    }
+    set<Info> s;
+    ...
+    set<Info>::iterator it;
+    ```
 
 # map
 
