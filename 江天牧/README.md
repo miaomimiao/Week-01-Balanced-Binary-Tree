@@ -1,9 +1,12 @@
-map和set是stl中的关联容器
-set：
-	Set用于存储数据，并且能从一个数据集合中取出数据。
+# map和set
+	map和set是stl中的关联容器
+
+# set
+	set用于存储数据，并且能从一个数据集合中取出数据。
 	它的每个元素的值必须唯一，而且系统会根据该值来自动将数据排序。
 	每个元素的值不能直接被改变。因为它内部的是红黑树。
-	红黑树：红黑树是自平衡的二叉查找树
+	
+	## 红黑树：红黑树是自平衡的二叉查找树
 		二叉查找树：
 			二叉查找树是每个节点只允许两个节点的树，每个节点必然大于其左子树的每一个值又小于右子树的每一个值
 			可以提供对数时间的元素插入和访问。
@@ -13,70 +16,78 @@ set：
 		set中使用红黑树完成。
 		红黑树是每个节点都带有颜色属性的二叉查找树，颜色或红色或黑色。在二叉查找树强制一般要求以外，
 		对于任何有效的红黑树我们增加了如下的额外要求:
-		  性质1. 节点是红色或黑色。
-		  性质2. 根节点是黑色。
-		  性质3 每个叶节点（NIL节点，空节点）是黑色的。
-		  性质4 每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点)
-		  性质5. 从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。
+		  1. 节点是红色或黑色。
+		  2. 根节点是黑色。
+		  3. 每个叶节点（NIL节点，空节点）是黑色的。
+		  4. 每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点)
+		  5. 从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。
 		这些约束强制了红黑树的关键性质: 从根到叶子的最长的可能路径不多于最短的可能路径的两倍长。结果是这个树大致上是平衡的。
 		因为操作比如插入、删除和查找某个值的最坏情况时间都要求与树的高度成比例，
 		这个在高度上的理论上限允许红黑树在最坏情况下都是高效的，而不同于普通的二叉查找树。
 		每插入一个节点会破坏原有的规则，必须要对原有的节点移位和改颜色。
 	回到set，set以红黑树为底层机制，所有set的操作都是调用红黑树，所以set有些操作要求就和红黑树的性质有关了，
 	如：我们不能通过迭代器改变set的值，因为红黑树的结构和值的大小有关系，删改元素后原有的指针依然能用。
-	set的使用方法：
-			常用操作：
-			1.元素插入：insert()
-			2.中序遍历：类似vector遍历（用迭代器）
-			3.反向遍历：利用反向迭代器reverse_iterator。
-				例：
-				set<int> s;
-				......
-				set<int>::reverse_iterator rit;
-				for(rit=s.rbegin();rit!=s.rend();rit++)
-			4.元素删除：与插入一样，可以高效的删除，并自动调整使红黑树平衡。
-						set<int> s;
-						s.erase(2);        //删除键值为2的元素
-						s.clear();
-			5.元素检索：find()，若找到，返回该键值迭代器的位置，否则，返回最后一个元素后面一个位置。
-						set<int> s;
-						set<int>::iterator it;
-						it=s.find(5);    //查找键值为5的元素
-						if(it!=s.end())    //找到
-							cout<<*it<<endl;
-						else            //未找到
-							cout<<"未找到";
-			6.自定义比较函数
-				(1)元素不是结构体：
-					例：
-					//自定义比较函数myComp,重载“（）”操作符
-					struct myComp
+	
+	## set的使用方法：
+		1. 元素插入：`insert()`
+		2. 中序遍历：类似`vector`遍历（用迭代器）
+		3. 反向遍历：利用反向迭代器`reverse_iterator`。
+			```cpp
+			set<int> s;
+			...
+			set<int>::reverse_iterator rit;
+			for(rit=s.rbegin();rit!=s.rend();rit++)
+			```
+		4. 元素删除：与插入一样，可以高效的删除，并自动调整使红黑树平衡。
+			```cpp		
+			set<int> s;
+			s.erase(2);        //删除键值为2的元素
+			s.clear();
+			```
+		5. 元素检索：`find()`，若找到，返回该键值迭代器的位置，否则，返回最后一个元素后面一个位置。
+			```cpp
+			set<int> s;
+			set<int>::iterator it;
+			it=s.find(5);    //查找键值为5的元素
+			if(it!=s.end())    //找到
+				cout<<*it<<endl;
+			else            //未找到
+				cout<<"未找到";
+			```
+		6. 自定义比较函数
+			1. 元素不是结构体：
+				```cpp
+				//自定义比较函数myComp,重载“（）”操作符
+				struct myComp
+				{
+					bool operator()(const your_type &a,const your_type &b)
 					{
-						bool operator()(const your_type &a,const your_type &b)
-						[
-							return a.data-b.data>0;
-						}
+						return a.data-b.data>0;
 					}
-					set<int,myComp>s;
-					......
-					set<int,myComp>::iterator it;
-				(2)如果元素是结构体，可以直接将比较函数写在结构体内。
-					例：
-					struct Info
+				}
+				set<int,myComp>s;
+				...
+				set<int,myComp>::iterator it;
+				```
+			2. 如果元素是结构体，可以直接将比较函数写在结构体内。
+				```cpp
+				struct Info
+				{
+					string name;
+					float score;
+					//重载“<”操作符，自定义排序规则
+					bool operator < (const Info &a) const
 					{
-						string name;
-						float score;
-						//重载“<”操作符，自定义排序规则
-						bool operator < (const Info &a) const
-						{
-							//按score从大到小排列
-							return a.score<score;
-						}
+						//按score从大到小排列
+						return a.score<score;
 					}
-					set<Info> s;
-					......
-					set<Info>::iterator it;
-map：
+				}
+				set<Info> s;
+				...
+				set<Info>::iterator it;
+				```
+
+# map
 	map 和 set使用相同的数据结构，不同的是 其中的Iterator的格式不一样，map使用pair这种配对的数据，
 	并根据pair中第一个元素的值进行排序，而set的iterator并不具备天生的pair类型的元素，
 	直接根据其中的元素进行排序。map的节点是一对数据，set的节点是一个数据。
@@ -87,7 +98,7 @@ map：
 	使用关键字key来标示每一个成员，相当于字典,把一个值映射成另一个值,如果想创建字典的话，map就是一个很好的选择。
 	map底层采用的是树型结构,多数使用平衡二叉树实现,查找某一值是常数时间,遍历起来效果也不错,
 	只是每次插入值的时候,会重新构成底层的平衡二叉树,效率有一定影响。
-	map的使用方法：
+	### map的使用方法：
 		1. 声明方式：
 		map<int, string> mapStudent;
 		2. 数据的插入
@@ -123,9 +134,9 @@ map：
 		第一种：用count函数来判定关键字是否出现，但是无法定位数据出现位置
 		第二种：用find函数来定位数据出现位置它返回的一个迭代器，
 		当数据出现时，它返回数据所在位置的迭代器，如果map中没有要查找的数据，它返回的迭代器等于end函数返回的迭代器
-		Int main()
+		int main()
 		{
-			Map<int, string> mapStudent;
+			map<int, string> mapStudent;
 			mapStudent.insert(pair<int, string>(1, “student_one"));
 			mapStudent.insert(pair<int, string>(2, “student_two"));
 			mapStudent.insert(pair<int, string>(3, “student_three"));
